@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>How Are You Feeling?</title>
+
+
+    <style>
+
+        /* =========================================
+           BASIC SETTINGS
+           ========================================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html,
+        body {
+
+            margin: 0;
+            padding: 0;
+
+            width: 100%;
+            height: 100%;
+
+            overflow: hidden;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: white;
+
+        }
+
+
+        /* =========================================
+           TOP CONTROL BAR
+           ========================================= */
+
+        .top-bar {
+
+            position: fixed;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+
+            height: 145px;
+
+            background: rgba(255, 255, 255, 0.97);
+
+            box-shadow:
+                0 3px 15px rgba(0, 0, 0, 0.15);
+
+            z-index: 1000;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 15px;
+
+            padding: 20px;
+
+        }
+
+
+        /* =========================================
+           TITLE
+           ========================================= */
+
+        .title {
+
+            text-align: center;
+
+            min-width: 280px;
+
+            margin: 0 15px;
+
+        }
+
+
+        .title h1 {
+
+            margin: 0 0 8px 0;
+
+            font-size: 32px;
+
+            color: #222;
+
+        }
+
+
+        .title p {
+
+            margin: 0;
+
+            font-size: 16px;
+
+            color: #777;
+
+        }
+
+
+        /* =========================================
+           EMOTION BUTTONS
+           ========================================= */
+
+        .emotion-button {
+
+            width: 150px;
+
+            height: 90px;
+
+            border: none;
+
+            border-radius: 15px;
+
+            cursor: pointer;
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            transition:
+                transform 0.15s ease,
+                box-shadow 0.15s ease;
+
+        }
+
+
+        .emotion-button:hover {
+
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 8px 20px rgba(0, 0, 0, 0.18);
+
+        }
+
+
+        .emotion-button:active {
+
+            transform: scale(0.94);
+
+        }
+
+
+        /* HAPPY */
+
+        .happy-button {
+
+            background: #ffd43b;
+
+            color: #222;
+
+        }
+
+
+        /* SAD */
+
+        .sad-button {
+
+            background: #4dabf7;
+
+            color: white;
+
+        }
+
+
+        /* NEUTRAL */
+
+        .neutral-button {
+
+            background: #d0d0d0;
+
+            color: #222;
+
+        }
+
+
+        .button-emoji {
+
+            display: block;
+
+            font-size: 32px;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        /* =========================================
+           RESET BUTTON
+           ========================================= */
+
+        .reset-button {
+
+            position: absolute;
+
+            right: 20px;
+
+            top: 20px;
+
+            border: none;
+
+            background: #f1f1f1;
+
+            color: #555;
+
+            padding: 10px 15px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-size: 13px;
+
+        }
+
+
+        .reset-button:hover {
+
+            background: #e5e5e5;
+
+        }
+
+
+        /* =========================================
+           EMOJI WALL
+           ========================================= */
+
+        #emojiWall {
+
+            position: fixed;
+
+            top: 145px;
+
+            left: 0;
+
+            right: 0;
+
+            bottom: 0;
+
+            padding: 8px;
+
+            overflow: hidden;
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            align-content: flex-start;
+
+            align-items: flex-start;
+
+            gap: 3px;
+
+        }
+
+
+        /* =========================================
+           INDIVIDUAL EMOJI
+           ========================================= */
+
+        .emoji {
+
+            width: 48px;
+
+            height: 48px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            font-size: 40px;
+
+            line-height: 1;
+
+            user-select: none;
+
+            flex-shrink: 0;
+
+            animation: appear 0.2s ease-out;
+
+        }
+
+
+        /* =========================================
+           EMOJI ANIMATION
+           ========================================= */
+
+        @keyframes appear {
+
+            0% {
+
+                transform: scale(0);
+
+                opacity: 0;
+
+            }
+
+            70% {
+
+                transform: scale(1.2);
+
+                opacity: 1;
+
+            }
+
+            100% {
+
+                transform: scale(1);
+
+                opacity: 1;
+
+            }
+
+        }
+
+
+        /* =========================================
+           EMPTY SCREEN
+           ========================================= */
+
+        #emptyMessage {
+
+            position: absolute;
+
+            top: 50%;
+
+            left: 50%;
+
+            transform: translate(-50%, -50%);
+
+            text-align: center;
+
+            color: #999;
+
+            pointer-events: none;
+
+        }
+
+
+        #emptyMessage .emoji-large {
+
+            font-size: 80px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        #emptyMessage p {
+
+            margin: 0;
+
+            font-size: 18px;
+
+        }
+
+
+        /* =========================================
+           MOBILE
+           ========================================= */
+
+        @media (max-width: 800px) {
+
+            .top-bar {
+
+                height: 125px;
+
+                padding: 10px;
+
+                gap: 6px;
+
+            }
+
+
+            .title {
+
+                display: none;
+
+            }
+
+
+            .emotion-button {
+
+                width: 30%;
+
+                height: 90px;
+
+                min-width: 90px;
+
+            }
+
+
+            .button-emoji {
+
+                font-size: 28px;
+
+            }
+
+
+            .reset-button {
+
+                right: 5px;
+
+                top: 5px;
+
+                font-size: 11px;
+
+                padding: 7px 10px;
+
+            }
+
+
+            #emojiWall {
+
+                top: 125px;
+
+            }
+
+
+            .emoji {
+
+                width: 40px;
+
+                height: 40px;
+
+                font-size: 34px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         TOP BAR
+         ========================================= -->
+
+    <div class="top-bar">
+
+
+        <!-- HAPPY BUTTON -->
+
+        <button
+            class="emotion-button happy-button"
+            onclick="chooseEmotion('happy')">
+
+            <span class="button-emoji">
+                😊
+            </span>
+
+            Happy
+
+        </button>
+
+
+
+        <!-- TITLE -->
+
+        <div class="title">
+
+            <h1>
+                How Are You Feeling?
+            </h1>
+
+            <p>
+                Click an emotion to fill the screen!
+            </p>
+
+        </div>
+
+
+
+        <!-- SAD BUTTON -->
+
+        <button
+            class="emotion-button sad-button"
+            onclick="chooseEmotion('sad')">
+
+            <span class="button-emoji">
+                😢
+            </span>
+
+            Sad
+
+        </button>
+
+
+
+        <!-- NEUTRAL BUTTON -->
+
+        <button
+            class="emotion-button neutral-button"
+            onclick="chooseEmotion('neutral')">
+
+            <span class="button-emoji">
+                😐
+            </span>
+
+            Neutral
+
+        </button>
+
+
+
+        <!-- RESET -->
+
+        <button
+            class="reset-button"
+            onclick="resetEmotions()">
+
+            ↻ Reset
+
+        </button>
+
+
+    </div>
+
+
+
+    <!-- =========================================
+         EMOJI WALL
+         ========================================= -->
+
+    <div id="emojiWall">
+
+
+        <!-- EMPTY MESSAGE -->
+
+        <div id="emptyMessage">
+
+            <div class="emoji-large">
+                🙂
+            </div>
+
+            <p>
+                Choose how you're feeling
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+
+    <script>
+
+
+        /* =========================================
+           EMOTION DATA
+           ========================================= */
+
+        const emotions = {
+
+            happy: "😊",
+
+            sad: "😢",
+
+            neutral: "😐"
+
+        };
+
+
+
+        /* =========================================
+           LOAD SAVED DATA
+           ========================================= */
+
+        let counts = {
+
+            happy: 0,
+
+            sad: 0,
+
+            neutral: 0
+
+        };
+
+
+        const savedData =
+            localStorage.getItem(
+                "emotionCounts"
+            );
+
+
+        if (savedData) {
+
+            try {
+
+                counts =
+                    JSON.parse(savedData);
+
+            }
+
+            catch (error) {
+
+                counts = {
+
+                    happy: 0,
+
+                    sad: 0,
+
+                    neutral: 0
+
+                };
+
+            }
+
+        }
+
+
+
+        /* =========================================
+           EMOTION BUTTON
+           ========================================= */
+
+        function chooseEmotion(emotion) {
+
+
+            /* Make sure the emotion exists */
+
+            if (!emotions[emotion]) {
+
+                return;
+
+            }
+
+
+            /* Increase count */
+
+            counts[emotion] =
+                counts[emotion] + 1;
+
+
+            /* Save to browser */
+
+            localStorage.setItem(
+
+                "emotionCounts",
+
+                JSON.stringify(counts)
+
+            );
+
+
+            /* Redraw the emoji wall */
+
+            displayEmojis();
+
+        }
+
+
+
+        /* =========================================
+           DISPLAY ALL EMOJIS
+           ========================================= */
+
+        function displayEmojis() {
+
+
+            const wall =
+                document.getElementById(
+                    "emojiWall"
+                );
+
+
+            /* Remove old emojis */
+
+            const oldEmojis =
+                wall.querySelectorAll(
+                    ".emoji"
+                );
+
+
+            oldEmojis.forEach(
+                emoji =>
+                    emoji.remove()
+            );
+
+
+            /* Calculate total */
+
+            const total =
+
+                counts.happy +
+
+                counts.sad +
+
+                counts.neutral;
+
+
+            /* Empty message */
+
+            const emptyMessage =
+                document.getElementById(
+                    "emptyMessage"
+                );
+
+
+            if (total === 0) {
+
+                emptyMessage.style.display =
+                    "block";
+
+            }
+
+            else {
+
+                emptyMessage.style.display =
+                    "none";
+
+            }
+
+
+
+            /* =================================
+               HAPPY EMOJIS
+               ================================= */
+
+            addEmojis(
+                wall,
+                "happy",
+                counts.happy
+            );
+
+
+
+            /* =================================
+               SAD EMOJIS
+               ================================= */
+
+            addEmojis(
+                wall,
+                "sad",
+                counts.sad
+            );
+
+
+
+            /* =================================
+               NEUTRAL EMOJIS
+               ================================= */
+
+            addEmojis(
+                wall,
+                "neutral",
+                counts.neutral
+            );
+
+        }
+
+
+
+        /* =========================================
+           ADD EMOJIS
+           ========================================= */
+
+        function addEmojis(
+            wall,
+            emotion,
+            amount
+        ) {
+
+
+            for (
+                let i = 0;
+                i < amount;
+                i++
+            ) {
+
+
+                const emoji =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                emoji.className =
+                    "emoji";
+
+
+                emoji.textContent =
+                    emotions[emotion];
+
+
+                wall.appendChild(
+                    emoji
+                );
+
+            }
+
+        }
+
+
+
+        /* =========================================
+           RESET EVERYTHING
+           ========================================= */
+
+        function resetEmotions() {
+
+
+            const confirmed =
+                confirm(
+                    "Are you sure you want to remove all the emojis?"
+                );
+
+
+            if (!confirmed) {
+
+                return;
+
+            }
+
+
+            counts = {
+
+                happy: 0,
+
+                sad: 0,
+
+                neutral: 0
+
+            };
+
+
+            localStorage.removeItem(
+                "emotionCounts"
+            );
+
+
+            displayEmojis();
+
+        }
+
+
+
+        /* =========================================
+           INITIAL DISPLAY
+           ========================================= */
+
+        displayEmojis();
+
+
+    </script>
+
+
+</body>
+
+</html>
