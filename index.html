@@ -962,6 +962,26 @@
 
 
         /* =========================================
+           RANDOM MOTIVATIONAL QUOTE
+           ========================================= */
+
+        const motivations = [
+            { quote: "Believe you can and you're halfway there.", author: "Theodore Roosevelt", image: "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=500&q=80" },
+            { quote: "The only way to do great work is to love what you do.", author: "Steve Jobs", image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=500&q=80" },
+            { quote: "Success is the sum of small efforts, repeated day in and day out.", author: "Robert Collier", image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=500&q=80" },
+            { quote: "It always seems impossible until it's done.", author: "Nelson Mandela", image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=500&q=80" },
+            { quote: "Start where you are. Use what you have. Do what you can.", author: "Arthur Ashe", image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=500&q=80" }
+        ];
+
+        function displayRandomMotivation() {
+            const motivation = motivations[Math.floor(Math.random() * motivations.length)];
+            document.getElementById("motivation-image").src = motivation.image;
+            document.getElementById("motivation-quote").textContent = "“" + motivation.quote + "”";
+            document.getElementById("motivation-author").textContent = "— " + motivation.author;
+        }
+
+
+        /* =========================================
            INITIAL DISPLAY
            ========================================= */
 
