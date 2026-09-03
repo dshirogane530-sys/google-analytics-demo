@@ -253,7 +253,7 @@
 
             right: 0;
 
-            bottom: 0;
+            bottom: 125px;
 
             padding: 8px;
 
@@ -433,6 +433,7 @@
             #emojiWall {
 
                 top: 125px;
+                bottom: 100px;
 
             }
 
@@ -447,6 +448,76 @@
 
             }
 
+        }
+
+
+        /* =========================================
+           MOTIVATIONAL QUOTE
+           ========================================= */
+
+        #motivation {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            min-height: 125px;
+            padding: 14px 90px 12px 20px;
+            background: rgba(255, 255, 255, 0.96);
+            box-shadow: 0 -3px 15px rgba(0, 0, 0, 0.12);
+            z-index: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 22px;
+        }
+
+        #motivation img {
+            width: 120px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+
+        #motivation-text {
+            max-width: 750px;
+            text-align: center;
+        }
+
+        #motivation-quote {
+            margin: 0;
+            font-size: 20px;
+            line-height: 1.35;
+            font-weight: bold;
+            color: #333;
+        }
+
+        #motivation-author {
+            margin: 7px 0 0;
+            font-size: 14px;
+            color: #777;
+        }
+
+        @media (max-width: 800px) {
+            #motivation {
+                min-height: 100px;
+                padding: 8px 55px 8px 8px;
+                gap: 10px;
+            }
+
+            #motivation img {
+                width: 85px;
+                height: 70px;
+            }
+
+            #motivation-quote {
+                font-size: 14px;
+            }
+
+            #motivation-author {
+                font-size: 11px;
+                margin-top: 4px;
+            }
         }
 
     </style>
@@ -555,6 +626,22 @@
     </div>
 
 
+
+
+    <!-- =========================================
+         MOTIVATIONAL QUOTE
+         ========================================= -->
+
+    <div id="motivation">
+        <img id="motivation-image"
+             src=""
+             alt="Motivational image">
+
+        <div id="motivation-text">
+            <p id="motivation-quote"></p>
+            <p id="motivation-author"></p>
+        </div>
+    </div>
 
     <!-- =========================================
          EMOJI WALL
@@ -879,6 +966,7 @@
            ========================================= */
 
         displayEmojis();
+        displayRandomMotivation();
 
 
     </script>
