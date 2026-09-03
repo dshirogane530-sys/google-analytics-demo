@@ -29,9 +29,6 @@
             padding: 0;
 
             width: 100%;
-            height: 100%;
-
-            overflow: hidden;
 
             font-family:
                 Arial,
@@ -241,19 +238,17 @@
 
         /* =========================================
            EMOJI WALL
+           (first screenful, sits below the fixed
+           top bar and above the fixed quote bar)
            ========================================= */
 
         #emojiWall {
 
-            position: fixed;
+            position: relative;
 
-            top: 145px;
+            margin-top: 145px;
 
-            left: 0;
-
-            right: 0;
-
-            bottom: 125px;
+            height: calc(100vh - 145px - 125px);
 
             padding: 8px;
 
@@ -432,8 +427,8 @@
 
             #emojiWall {
 
-                top: 125px;
-                bottom: 100px;
+                margin-top: 125px;
+                height: calc(100vh - 125px - 100px);
 
             }
 
@@ -518,6 +513,92 @@
                 font-size: 11px;
                 margin-top: 4px;
             }
+        }
+
+
+        /* =========================================
+           NATURE GALLERY
+           (below the fold - scroll down to see it)
+           ========================================= */
+
+        #natureGallery {
+
+            padding: 50px 20px calc(125px + 50px) 20px;
+
+            text-align: center;
+
+            background: #fafafa;
+
+        }
+
+        #natureGallery h2 {
+
+            margin: 0 0 8px;
+
+            font-size: 26px;
+
+            color: #333;
+
+        }
+
+        #natureGallery p {
+
+            margin: 0 0 30px;
+
+            font-size: 15px;
+
+            color: #777;
+
+        }
+
+        .nature-grid {
+
+            display: grid;
+
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+
+            gap: 20px;
+
+            max-width: 1100px;
+
+            margin: 0 auto;
+
+        }
+
+        .nature-grid img {
+
+            width: 100%;
+
+            height: 220px;
+
+            object-fit: cover;
+
+            border-radius: 14px;
+
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+
+        }
+
+        @media (max-width: 800px) {
+
+            #natureGallery {
+
+                padding: 35px 15px calc(100px + 35px) 15px;
+
+            }
+
+            .nature-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .nature-grid img {
+
+                height: 180px;
+
+            }
+
         }
 
     </style>
@@ -664,6 +745,20 @@
 
         </div>
 
+
+    </div>
+
+
+    <!-- =========================================
+         NATURE GALLERY (scroll down to see)
+         ========================================= -->
+
+    <div id="natureGallery">
+
+        <h2>A Little Nature Break 🌿</h2>
+        <p>Scroll down for some calming scenery</p>
+
+        <div class="nature-grid" id="natureGrid"></div>
 
     </div>
 
@@ -982,11 +1077,68 @@
 
 
         /* =========================================
+           RANDOM NATURE GALLERY
+           ========================================= */
+
+        const natureImages = [
+            "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1426604966848-d7adac402bff?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1500673922987-e212871fec22?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1441716844725-09cedc13a4e7?auto=format&fit=crop&w=800&q=80"
+        ];
+
+        function displayNatureImages() {
+
+            /* Shuffle a copy of the list */
+
+            const shuffled =
+                [...natureImages].sort(
+                    () => Math.random() - 0.5
+                );
+
+            /* Pick 6 random images */
+
+            const chosen =
+                shuffled.slice(0, 6);
+
+            const grid =
+                document.getElementById(
+                    "natureGrid"
+                );
+
+            grid.innerHTML = "";
+
+            chosen.forEach(url => {
+
+                const img =
+                    document.createElement(
+                        "img"
+                    );
+
+                img.src = url;
+
+                img.alt = "Nature scenery";
+
+                grid.appendChild(img);
+
+            });
+
+        }
+
+
+        /* =========================================
            INITIAL DISPLAY
            ========================================= */
 
         displayEmojis();
         displayRandomMotivation();
+        displayNatureImages();
 
 
     </script>
